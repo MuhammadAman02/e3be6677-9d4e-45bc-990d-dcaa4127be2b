@@ -5,6 +5,7 @@ import helmet from "@fastify/helmet";
 import root from "./routes/root";
 import { fruitRoutes } from "./routes/fruit.route";
 import { authRoutes } from "./routes/auth.route";
+import { userRoutes } from "./routes/user.route";
 
 export async function createApp() {
   const app = Fastify({
@@ -59,6 +60,7 @@ export async function createApp() {
   app.register(root, { prefix: "/" });
   app.register(authRoutes);
   app.register(fruitRoutes);
+  app.register(userRoutes);
 
   // Global error handler
   app.setErrorHandler((error, request, reply) => {

@@ -4,6 +4,7 @@ import fastifySwaggerUi from "@fastify/swagger-ui";
 import helmet from "@fastify/helmet";
 import root from "./routes/root";
 import { fruitRoutes } from "./routes/fruit.route";
+import { authRoutes } from "./routes/auth.route";
 
 export async function createApp() {
   const app = Fastify({
@@ -17,6 +18,15 @@ export async function createApp() {
           description: "Documentation for the Joylo backend services",
           version: "1.0.0",
         },
+        securityDefinitions: {
+          bearerAuth: {
+            type: 'apiKey',
+            name: 'Authorization',
+            in: 'header',
+            description: 'Enter your bearer token in the format: Bearer <token>'
+          }
+        },
+        security: [{ bearerAuth: [] }]
       },
     });
 
@@ -47,6 +57,7 @@ export async function createApp() {
 
   // Register routes
   app.register(root, { prefix: "/" });
+  app.register(authRoutes);
   app.register(fruitRoutes);
 
   // Global error handler

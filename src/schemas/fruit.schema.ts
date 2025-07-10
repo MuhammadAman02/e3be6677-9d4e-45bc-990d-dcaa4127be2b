@@ -11,10 +11,17 @@ const FruitZod = z.object({
 
 const GetFruitsResponseZod = z.array(FruitZod);
 
+const ErrorResponseZod = z.object({
+  error: z.string(),
+});
+
 // Fastify-compatible JSON schema
 export const getFruitsSchema = {
   tags: ["Fruits"],
+  security: [{ bearerAuth: [] }],
   response: {
     200: zodToJsonSchema(GetFruitsResponseZod),
+    401: zodToJsonSchema(ErrorResponseZod),
+    403: zodToJsonSchema(ErrorResponseZod),
   },
 };
